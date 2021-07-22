@@ -1,0 +1,223 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    <title> 
+        DashBoard | {{ user.first_name }}
+    </title> 
+    <link 
+        rel="stylesheet"
+        href="{% static 'css/mould_id.css' %}" > 
+{% endblock %}
+
+{% block body_content %}
+    <nav 
+        class="navbar navbar-light dashboard_nav">
+        <div class="container-fluid dashboard_nav">
+            <p class="h1 dashboard_title"> 
+                <a href="{% url 'homePage' %}" style="text-decoration:None;">
+                  DashBoard 
+                </a> 
+            </p> 
+
+
+            <div class="user_data"> 
+                <p class="h3"> 
+                    {{ request.user.first_name }}, 
+                    <a href="{% url 'userLogout' %}"> 
+                        Logout
+                    </a> 
+                </p> 
+            </div> 
+        </div>
+    </nav>
+    <div class="heading_container">
+        <div class="row"> 
+            <div class="col">
+               <p class="h2"> 
+                    Mould ID : {{ data.mould_id }}
+                </p>
+            </div> 
+
+            <div class="col"> 
+                <a href="#"> 
+                    <button class="btn bg-dark text-white mould_button"> 
+                        update
+                    </button> 
+                </a> 
+
+                <a href="#"> 
+                    <button class="btn bg-dark text-white mould_button"> 
+                        add
+                    </button> 
+                </a> 
+
+                <a href="#"> 
+                    <button class="btn bg-dark text-white mould_button"> 
+                        delete
+                    </button> 
+                </a> 
+
+            </div> 
+        
+        </div> 
+
+    </div>  
+    <hr /> 
+
+    <div class="mould_data_show"> 
+        <div class="row">
+            <div class="col tableColumn">
+
+                <table class="table">
+                            {% comment %} {% comment %} <th scope="col">Mould ID</th> {% endcomment %}
+                            <th scope="col">Property</th>
+                            <th scope="col">Value</th>
+                            {% comment %} <th scope="col">time</th> {% endcomment %}
+                            {% comment %} <th scope="col">Part Description</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Product Line</th>
+                            <th scope="col">Registered by </th> 
+                       {% endcomment %}
+
+                    <tr class="table-info"> 
+                        <td class="table-info">
+                            Mould ID 
+                        </td> 
+                        <td class="table-info"> 
+                            {{ data.mould_id }}
+                        </td> 
+                    </tr> 
+
+                    <tr class="table-info"> 
+                        <td class="table-info">
+                            Mould Name 
+                        </td> 
+                        <td class="table-info"> 
+                            {{ data.mould_name }}
+                        </td> 
+                    </tr> 
+
+                    <tr class="table-info"> 
+                        <td class="table-info">
+                            Serial Number 
+                        </td> 
+                        <td class="table-info"> 
+                            -
+                        </td> 
+                    </tr> 
+
+                    <tr class="table-info"> 
+                        <td class="table-info">
+                            Department 
+                        </td> 
+                        <td class="table-info"> 
+                            -
+                        </td> 
+                    </tr> 
+
+                    <tr class="table-info"> 
+                        <td class="table-info">
+                           Product Line  
+                        </td> 
+                        <td class="table-info"> 
+                            -
+                        </td> 
+                    </tr> 
+
+                    <tr class="table-info"> 
+                        <td class="table-info">
+                            Registered by 
+                        </td> 
+                        <td class="table-info"> 
+                            {{ data.registered_by.first_name }}
+                        </td> 
+                    </tr> 
+
+                    <tr class="table-info"> 
+                        <td class="table-info">
+                            Current Count 
+                        </td> 
+                        <td class="table-info"> 
+                            {{ data.present_count }}
+                        </td> 
+                    </tr>
+
+                    <tr class="table-info"> 
+                        <td class="table-info">
+                            Threshold value  
+                        </td> 
+                        <td class="table-info"> 
+                            {{ data.threshold_value }}
+                        </td> 
+                    </tr>
+
+                </table> 
+
+            </div> 
+
+            <div class="col graphColumn"> 
+                <img src="{% static 'images/mould_daily_count.png' %}" class="img-fluid" alt="...">
+            </div> 
+        </div> 
+    </div> 
+      
+   {% comment %} Comments. {% endcomment %}
+    
+    <div class="container comment_box"> 
+
+        
+
+    
+        <form action="." method = "POST"> 
+            {% csrf_token %}
+            <input type="number" name="id" style="display:none" value="{{ data.mould_id }}" /> 
+              <label 
+                for="exampleInputEmail1" 
+                class="form-label"
+                style="font-size : 20px;"
+                >
+                <b>
+                Comment 
+                </b>
+            </label>
+            
+            <textarea 
+            name = "comment"
+            class="form-control" 
+            id="mouldName" 
+            aria-describedby="textHelp"
+            required >
+
+            </textarea> 
+
+            <div 
+            class="mb-3 submitButton">
+
+            <button type="submit" class="btn btn-primary submitButton customSubmitButton"><b>submit</b></button>
+
+        </div> 
+
+
+        </form> 
+
+        <div class="comment_box_2">
+            {% for comment in comments %}
+            <div class="alert alert-info" role="alert">
+                {{ comment.comment_text }}
+                <br/> 
+                <i><u> {{ comment.commented_by.first_name }} </u></i>
+                <p style="text-align:right;"> 
+                    {{ comment.commented_date_time }}
+                </p> 
+            </div>
+            {% endfor %}
+
+        </div> 
+
+    </div> 
+
+    
+
+{% endblock %}
+
